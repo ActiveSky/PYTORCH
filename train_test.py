@@ -4,7 +4,7 @@ import torch.optim as optim
 from prepare_data import prepare_data
 
 # super parameters
-n_epochs = 3
+n_epochs = 5
 learning_rate = 0.01
 momentum = 0.5
 log_interval = 10
@@ -18,25 +18,27 @@ def net_train(net: nn.Module, trainloader: torch.utils.data.DataLoader):
 
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.Adam(net.parameters(), lr=learning_rate)
+
     print("Start training...")
-    for epoch in range(n_epochs): # loop over the dataset multiple times
+    for epoch in range(n_epochs):  # loop over the dataset multiple times
         running_loss = 0.0
         for i, data in enumerate(trainloader, 0):
+            
             inputs, labels = data
-            optimizer.zero_grad()
-            outputs = net(inputs)
-            loss = criterion(outputs, labels)
-            loss.backward()
-            optimizer.step()
+            optimizer.zero_grad()  # zero the parameter gradients
+            outputs = net(inputs)  # forward + backward + optimize
+            loss = criterion(outputs, labels)  # calculate the loss
+            loss.backward()  # backpropagation
+            optimizer.step()  # update parameters
 
             # print statistics
             running_loss += loss.item()
-            if i % 200 == 199:   # print every 2000 mini-batches
-                print('[%d, %5d] loss: %.3f' %
-                        (epoch + 1, i + 1, running_loss / 2000))
+            if i % 200 == 199:  # print every 2000 mini-batches
+                print("[%d, %5d] loss: %.3f" % (epoch + 1, i + 1, running_loss / 2000))
                 running_loss = 0.0
 
-    print('Finished Training')
+    print("Finished Training")
+
 
 def net_test(net: nn.Module, testloader: torch.utils.data.DataLoader):
     print("Start testing...")
@@ -50,7 +52,8 @@ def net_test(net: nn.Module, testloader: torch.utils.data.DataLoader):
             total += labels.size(0)
             correct += (predicted == labels).sum().item()
 
-        print('Accuracy of the network on the test images: %d %%' % (
-        100 * correct / total))
+        print(
+            "Accuracy of the network on the test images: %d %%"
+            % (100 * correct / total)
+        )
     print("Finished Testing")
- 

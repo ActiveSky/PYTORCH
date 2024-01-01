@@ -22,6 +22,8 @@ class Full_Net(nn.Module):
        x = self.fc3(x)
        return x
    
+   
+   
 # 2.convolutional neural network
 class Conv_Net(nn.Module):
    def __init__(self):
