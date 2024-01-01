@@ -1,4 +1,5 @@
 
+import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
@@ -24,33 +25,33 @@ class Full_Net(nn.Module):
    
    
    
-# 2.convolutional neural network
+# 2.convolutional neural network for number recognition
 class Conv_Net(nn.Module):
    def __init__(self):
-       """
-       Initialize the neural network model.
-       """
        super(Conv_Net, self).__init__()
-       self.conv1 = nn.Conv2d(1, 10, kernel_size=5)
-       self.conv2 = nn.Conv2d(10, 20, kernel_size=5)
-       self.conv2_drop = nn.Dropout2d()
-       self.fc1 = nn.Linear(320, 50)
-       self.fc2 = nn.Linear(50, 10)
+       self.conv1 = nn.Conv2d(1, 64, kernel_size=3, padding=1)
+       self.conv2 = nn.Conv2d(64, 64, kernel_size=3, padding=1)
+       self.pool = nn.MaxPool2d(kernel_size=2, stride=2)
+       self.conv3 = nn.Conv2d(64, 128, kernel_size=3, padding=1)
+       self.conv4 = nn.Conv2d(128, 128, kernel_size=3, padding=1)
+       self.conv5 = nn.Conv2d(128, 256, kernel_size=3, padding=1)
+       self.conv6 = nn.Conv2d(256, 256, kernel_size=3, padding=1)
+       self.avgpool = nn.AdaptiveAvgPool2d((1, 1))
+       self.fc1 = nn.Linear(256, 256)
+       self.fc2 = nn.Linear(256, 10)
+       self.dropout = nn.Dropout(0.5)
 
    def forward(self, x):
-       """
-       Perform forward pass through the neural network.
-
-       Args:
-           x (torch.Tensor): Input tensor.
-
-       Returns:
-           torch.Tensor: Output tensor.
-       """
-       x = F.relu(F.max_pool2d(self.conv1(x), 2))
-       x = F.relu(F.max_pool2d(self.conv2_drop(self.conv2(x)), 2))
-       x = x.view(-1, 320)
+       x = F.relu(self.conv1(x))
+       x = F.relu(self.conv2(x))
+       x = self.pool(x)
+       x = F.relu(self.conv3(x))
+       x = F.relu(self.conv4(x))
+       x = F.relu(self.conv5(x))
+       x = F.relu(self.conv6(x))
+       x = self.avgpool(x)
+       x = x.view(x.size(0), -1)
+       x = self.dropout(x)
        x = F.relu(self.fc1(x))
-       x = F.dropout(x, training=self.training)
        x = self.fc2(x)
        return x
