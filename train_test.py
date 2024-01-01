@@ -1,7 +1,7 @@
 import torch
 from torch import nn
 import torch.optim as optim
-from prepare_data import trainloader, testloader
+from prepare_data import prepare_data
 
 # super parameters
 n_epochs = 3
@@ -10,7 +10,7 @@ momentum = 0.5
 log_interval = 10
 
 
-def net_train(net: nn.Module):
+def net_train(net: nn.Module, trainloader: torch.utils.data.DataLoader):
     """
     Train the neural network model.
     """
@@ -38,7 +38,7 @@ def net_train(net: nn.Module):
 
     print('Finished Training')
 
-def net_test(net: nn.Module):
+def net_test(net: nn.Module, testloader: torch.utils.data.DataLoader):
     correct = 0
     total = 0
     with torch.no_grad():

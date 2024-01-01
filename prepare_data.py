@@ -27,8 +27,8 @@ def prepare_data():
                 ]
             )
     # 2.load train and test data
-    trainset = datasets.MNIST('~/.pytorch/MNIST_data/', download=True, train=True, transform=transform)
-    testset = datasets.MNIST('~/.pytorch/MNIST_data/', download=True, train=False, transform=transform)
+    trainset = datasets.MNIST('./data/MNIST_data/', download=True, train=True, transform=transform)
+    testset = datasets.MNIST('./data/MNIST_data/', download=True, train=False, transform=transform)
 
     # 3.create data loader
     train_loader = DataLoader(trainset, batch_size=batch_size_train, shuffle=True)

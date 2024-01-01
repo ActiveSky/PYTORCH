@@ -15,7 +15,12 @@ class Full_Net(nn.Module):
        self.fc2 = nn.Linear(128, 64)
        self.fc3 = nn.Linear(64, 10)
 
-import torch.nn.functional as F
+   def forward(self, x):
+       x = x.view(-1, 784)
+       x = F.relu(self.fc1(x))
+       x = F.relu(self.fc2(x))
+       x = self.fc3(x)
+       return x
    
 # 2.convolutional neural network
 class Conv_Net(nn.Module):
