@@ -1,9 +1,13 @@
 from net import Full_Net
 from train_test import net_train, net_test
 from prepare_data import prepare_data
-
+import torch
 
 if __name__ == '__main__':
+    # set random seed
+    random_seed = 1
+    torch.manual_seed(random_seed)
+    
     # 1.get data
     trainloader, testloader = prepare_data()
     # 2.create network

@@ -18,7 +18,7 @@ def net_train(net: nn.Module, trainloader: torch.utils.data.DataLoader):
 
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.Adam(net.parameters(), lr=learning_rate)
-
+    print("Start training...")
     for epoch in range(n_epochs): # loop over the dataset multiple times
         running_loss = 0.0
         for i, data in enumerate(trainloader, 0):
@@ -31,7 +31,7 @@ def net_train(net: nn.Module, trainloader: torch.utils.data.DataLoader):
 
             # print statistics
             running_loss += loss.item()
-            if i % 2000 == 1999:   # print every 2000 mini-batches
+            if i % 200 == 199:   # print every 2000 mini-batches
                 print('[%d, %5d] loss: %.3f' %
                         (epoch + 1, i + 1, running_loss / 2000))
                 running_loss = 0.0
@@ -39,6 +39,7 @@ def net_train(net: nn.Module, trainloader: torch.utils.data.DataLoader):
     print('Finished Training')
 
 def net_test(net: nn.Module, testloader: torch.utils.data.DataLoader):
+    print("Start testing...")
     correct = 0
     total = 0
     with torch.no_grad():
@@ -51,4 +52,5 @@ def net_test(net: nn.Module, testloader: torch.utils.data.DataLoader):
 
         print('Accuracy of the network on the test images: %d %%' % (
         100 * correct / total))
+    print("Finished Testing")
  

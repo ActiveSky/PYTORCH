@@ -1,5 +1,5 @@
 # import library
-import torch
+
 from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
 
@@ -8,8 +8,7 @@ from torch.utils.data import DataLoader
 batch_size_train = 64
 batch_size_test = 1000
 
-random_seed = 1
-torch.manual_seed(random_seed)
+
 
 def prepare_data():
     """
