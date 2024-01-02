@@ -6,10 +6,8 @@ from torch.utils.tensorboard import SummaryWriter
 
 logger = SummaryWriter("./pytorch_tb/train_test")
 # super parameters
-n_epochs = 5
+n_epochs = 3
 learning_rate = 0.01
-momentum = 0.5
-log_interval = 10
 
 
 def net_train(net: nn.Module, trainloader: torch.utils.data.DataLoader):
@@ -37,11 +35,19 @@ def net_train(net: nn.Module, trainloader: torch.utils.data.DataLoader):
             loss.backward()  # backpropagation
             # 5.update parameters
             optimizer.step()  # update parameters
+             # Get the predicted labels
+            _, predicted = torch.max(outputs, 1)
+
+            # Calculate the number of correct predictions
+            correct = (predicted == labels).sum().item()
+
+            # Calculate the accuracy
+            accuracy = correct / labels.size(0)
 
             # print statistics
             running_loss += loss.item()
             if i % 100 == 99:  # print every 2000 mini-batches
-                print("[%d, %5d] loss: %.3f" % (epoch + 1, i + 1, running_loss / 2000))
+                print("[%d, %5d] loss: %.3f" % (epoch + 1, i + 1, running_loss / 100))
                 logger.add_scalar('training loss', running_loss / 100, epoch * len(trainloader) + i)
                 logger.add_scalar('training accuracy', accuracy, epoch * len(trainloader) + i)
                 running_loss = 0.0
