@@ -13,7 +13,6 @@ batch_size_train = 64
 batch_size_test = 1000
 
 
-
 def prepare_data():
     """
     Prepare the MNIST dataset for training and testing.
@@ -23,15 +22,19 @@ def prepare_data():
     test_loader (DataLoader): DataLoader object for testing data.
     """
     # 1.data preparation
-    transform=transforms.Compose(
-                [
-                    transforms.ToTensor(),
-                    transforms.Normalize((0.5,), (0.5,)),
-                ]
-            )
+    transform = transforms.Compose(
+        [
+            transforms.ToTensor(),
+            transforms.Normalize((0.5,), (0.5,)),
+        ]
+    )
     # 2.load train and test data
-    trainset = datasets.MNIST('./data/MNIST_data/', download=True, train=True, transform=transform)
-    testset = datasets.MNIST('./data/MNIST_data/', download=True, train=False, transform=transform)
+    trainset = datasets.MNIST(
+        "./data/MNIST_data/", download=True, train=True, transform=transform
+    )
+    testset = datasets.MNIST(
+        "./data/MNIST_data/", download=True, train=False, transform=transform
+    )
 
     # 3.create data loader
     train_loader = DataLoader(trainset, batch_size=batch_size_train, shuffle=True)
@@ -39,12 +42,12 @@ def prepare_data():
 
     return train_loader, test_loader
 
+
 if __name__ == "__main__":
     train_loader, test_loader = prepare_data()
     images, labels = next(iter(train_loader))
-    # 将多张图片拼接成一张图片，中间用黑色网格分割
-    # create grid of images
-    writer = SummaryWriter('./pytorch_tb')
-    img_grid = torchvision.utils.make_grid(images)
-    writer.add_image('image_grid', img_grid)
-    writer.close()
+
+    # use tensorboardX to visualize the data
+    writer=SummaryWriter('./pytorch_tb')
+    writer.add_image("images", torchvision.utils.make_grid(images))
+    

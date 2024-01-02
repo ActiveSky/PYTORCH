@@ -2,7 +2,7 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-
+from torch.utils.tensorboard import SummaryWriter
 
 
 # 1.full connected network
@@ -58,3 +58,12 @@ class Conv_Net(nn.Module):
         x = F.relu(self.fc1(x))
         x = self.fc2(x)
         return F.softmax(x, dim=1)
+
+if __name__=="__main__":
+    # 1. create the model
+    model = Conv_Net()
+    # 2. create the writer for tensorboardX
+    writer = SummaryWriter('./pytorch_tb')
+    # 3. write the graph to tensorboardX
+    writer.add_graph(model, torch.rand(1, 1, 28, 28))
+    writer.close()
