@@ -16,15 +16,19 @@ def predict_digit(image_path, model):
 
     # 添加一个批次维度
     image = image.unsqueeze(0)
+    # print image shape
+    print(image.shape)
 
     # 将模型设置为评估模式
     model.eval()
 
-    # 进行预测,输出所有结果以及对应的概率,按照降序排列
+    # predict result and probability
     with torch.no_grad():
         output = model(image)
-        output = torch.softmax(output, dim=1)
-        prob, pred = torch.topk(output, 1, dim=1)
+        prob = torch.nn.functional.softmax(output, dim=1)
+        pred = torch.argmax(prob, dim=1, keepdim=True)
+        print("Predicted result:", pred.item())
+        print("Probability:", prob[0][pred.item()].item())
+
     
-    return pred.item(), prob.item()
     

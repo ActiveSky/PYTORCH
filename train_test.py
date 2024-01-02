@@ -6,7 +6,7 @@ from torch.utils.tensorboard import SummaryWriter
 
 logger = SummaryWriter("./pytorch_tb/train_test")
 # super parameters
-n_epochs = 3
+n_epochs = 10
 learning_rate = 0.01
 
 
@@ -25,17 +25,19 @@ def net_train(net: nn.Module, trainloader: torch.utils.data.DataLoader):
         for i, data in enumerate(trainloader, 0):
             
             inputs, labels = data
-            # 1.gradient to zero
-            optimizer.zero_grad()  # zero the parameter gradients
-            # 2.input data
+
+            # 1.input data
             outputs = net(inputs)  # forward
-            # 3.calculate loss
+            # 2.calculate loss
             loss = criterion(outputs, labels)  # calculate the loss
+            # 3.gradient to zero
+            optimizer.zero_grad()  # zero the parameter gradients
             # 4.backpropagation
             loss.backward()  # backpropagation
             # 5.update parameters
             optimizer.step()  # update parameters
-             # Get the predicted labels
+             
+            # Get the predicted labels
             _, predicted = torch.max(outputs, 1)
 
             # Calculate the number of correct predictions
