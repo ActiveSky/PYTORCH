@@ -9,7 +9,7 @@ from torch.utils.tensorboard import SummaryWriter
 # writer = SummaryWriter('./pytorch_tb')
 
 # set the super parameters
-batch_size_train = 64
+batch_size_train = 32
 batch_size_test = 1000
 
 
