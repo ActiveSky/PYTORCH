@@ -1,4 +1,3 @@
-
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -7,24 +6,23 @@ from torch.utils.tensorboard import SummaryWriter
 
 # 1.full connected network
 class Full_Net(nn.Module):
-   def __init__(self):
-       """
-       Initialize the neural network model.
-       """
-       super(Full_Net, self).__init__()
-       self.fc1 = nn.Linear(784, 128)
-       self.fc2 = nn.Linear(128, 64)
-       self.fc3 = nn.Linear(64, 10)
+    def __init__(self):
+        """
+        Initialize the neural network model.
+        """
+        super(Full_Net, self).__init__()
+        self.fc1 = nn.Linear(784, 128)
+        self.fc2 = nn.Linear(128, 64)
+        self.fc3 = nn.Linear(64, 10)
 
-   def forward(self, x):
-       x = x.view(-1, 784)
-       x = F.relu(self.fc1(x))
-       x = F.relu(self.fc2(x))
-       x = self.fc3(x)
-       return x
-   
-   
-   
+    def forward(self, x):
+        x = x.view(-1, 784)
+        x = F.relu(self.fc1(x))
+        x = F.relu(self.fc2(x))
+        x = self.fc3(x)
+        return x
+
+
 # 2.convolutional neural network for number recognition
 class Conv_Net(nn.Module):
     def __init__(self):
@@ -80,11 +78,12 @@ class Conv_Net(nn.Module):
         x = self.fc(x)
         return x
 
-if __name__=="__main__":
+
+if __name__ == "__main__":
     # 1. create the model
     model = Conv_Net()
     # 2. create the writer for tensorboardX
-    writer = SummaryWriter('./pytorch_tb')
+    writer = SummaryWriter("./pytorch_tb")
     # 3. write the graph to tensorboardX
     writer.add_graph(model, torch.rand(1, 1, 28, 28))
     writer.close()
