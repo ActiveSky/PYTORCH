@@ -5,9 +5,8 @@ from prepare_data import prepare_data
 from predict import predict_digit
 
 # multi-cpu training
-device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-print(device)
-torch.set_num_threads(2) # 设置为你想要的线程数
+
+torch.set_num_threads(4) # 设置为你想要的线程数
 
 def print_data(data_loader):
     # Assuming `data_loader` is an instance of torch.utils.data.DataLoader
