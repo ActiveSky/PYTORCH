@@ -2,12 +2,11 @@
 
 from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
-import torchvision
+
 from torch.utils.tensorboard import SummaryWriter
 import matplotlib.pyplot as plt
 
-# # set the writer for tensorboardX object
-writer = SummaryWriter('./pytorch_tb/prepare_data')
+
 
 # set the super parameters
 batch_size_train = 32
@@ -51,6 +50,8 @@ def save_img(imgs, labels, num=0):
 
 
 if __name__ == "__main__":
+    # # set the writer for tensorboardX object
+    writer = SummaryWriter('./pytorch_tb/prepare_data')
     train_loader, test_loader = prepare_data()
     images, labels = next(iter(train_loader))
 
