@@ -73,6 +73,7 @@ def net_test(net: nn.Module, testloader: torch.utils.data.DataLoader):
     print("Start testing...")
     correct = 0
     total = 0
+    j=0
     with torch.no_grad():
         for i ,data in enumerate(testloader):
             images, labels = data
@@ -82,13 +83,15 @@ def net_test(net: nn.Module, testloader: torch.utils.data.DataLoader):
             correct += (predicted == labels).sum().item()
             # print statistics in every 100 mini-batches
             print("[%5d] Accuracy of the network on the %d test images: %d %%" % ((i + 1)*1000, total, 100 * correct / total))
-            # write the predicted and labels to csv file
-            # join the predicted and labels
-            predicted_for_write = predicted.reshape(-1,1)
-            labels_for_write = labels.reshape(-1,1)
-            data = torch.cat((predicted_for_write,labels_for_write),1)
-            # write to csv file
-            write_to_csv('./csv/predicted_labels.csv',data)
+            if j<1:
+                # write the predicted and labels to csv file
+                # join the predicted and labels
+                predicted_for_write = predicted.reshape(-1,1)
+                labels_for_write = labels.reshape(-1,1)
+                data = torch.cat((predicted_for_write,labels_for_write),1)
+                # write to csv file
+                write_to_csv('./csv/predicted_labels.csv',data)
+                j+=1
         print(
             "Accuracy of the network on the test images: %d %%"
             % (100 * correct / total)

@@ -43,17 +43,12 @@ if __name__ == "__main__":
     # net_train(net, trainloader)
     # 3.2 load weights
     net.load_state_dict(torch.load("CovNet__weights.pth"))
-
-    # 4.test network
-    net_test(net, testloader)
-    # # 5.save weights
+    
+    # # 4.save weights
     # torch.save(net.state_dict(), "CovNet__weights.pth")
 
-    # 6.predict
-    # # 6.predict
-    iter=iter(trainloader)
-    images, labels = next(iter)
-    res = save_img(images, labels, num=17)  # num<32
-    print("True label:", res)
-    image_path = f"./imgs/{res}.png"
-    predict_digit(image_path, net)
+    # 5.test network
+    net_test(net, testloader)
+
+
+

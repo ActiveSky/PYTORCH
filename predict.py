@@ -1,7 +1,8 @@
 import torch
 from PIL import Image
 from torchvision import transforms
-
+from prepare_data import prepare_data, save_img
+from net import Conv_Net
 def predict_digit(image_path, model):
     # 1.定义转换
     transform = transforms.Compose([
@@ -28,11 +29,26 @@ def predict_digit(image_path, model):
         # 1.get the probability of the every class
         prob = torch.nn.functional.softmax(output, dim=1)
         # 2.print the probability which Keeps two decimal places of the every class use a dict 
-        print("Probability:", {i: round(float(prob[0][i]), 2) for i in range(10)})
+        for i in range(10):
+            print(f"Probability of {i}: {round(float(prob[0][i]), 2)}")
         # 3.get the predict result which has the highest probability
         pred = torch.argmax(prob, dim=1, keepdim=True)
         print("Predicted result:", pred.item())
-        print("Probability:", prob[0][pred.item()].item())
+        print("Probability:", round(float(prob[0][pred.item()].item()),3))
 
+
+if __name__ == '__main__':
+    _, testloader = prepare_data()
+    
+    model=Conv_Net()
+    # load weights
+    model.load_state_dict(torch.load("CovNet__weights.pth"))
+    #predict
+    # iter=iter(testloader)
+    # images, labels = next(iter)
+    # save_img(images, labels)  # num<1000
+
+    image_path = f"./imgs/9/9.jpg"
+    predict_digit(image_path, model)
     
     
