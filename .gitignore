@@ -1,4 +1,6 @@
 /__pycache__/
 /data/
 /pytorch_tb/
+# for test
+test.py
 

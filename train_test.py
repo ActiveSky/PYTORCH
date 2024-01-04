@@ -9,6 +9,19 @@ logger = SummaryWriter("./pytorch_tb/train_test")
 n_epochs = 10
 learning_rate = 0.01
 
+# write the predicted and labels to csv file
+def write_to_csv(filename,data: torch.Tensor):
+    #  convert the tensor to numpy
+    data = data.numpy()
+    # write the data to csv file
+    with open(filename, 'w') as f:
+        # write column names
+        f.write('pred,labels\n')
+        for i in range(data.shape[0]):
+            for j in range(data.shape[1]):
+                f.write(str(data[i][j]) + ',')
+            f.write('\n')
+    print("Write to csv file successfully!")
 
 def net_train(net: nn.Module, trainloader: torch.utils.data.DataLoader):
     """
@@ -61,13 +74,21 @@ def net_test(net: nn.Module, testloader: torch.utils.data.DataLoader):
     correct = 0
     total = 0
     with torch.no_grad():
-        for data in testloader:
+        for i ,data in enumerate(testloader):
             images, labels = data
             outputs = net(images)
             _, predicted = torch.max(outputs.data, 1)
             total += labels.size(0)
             correct += (predicted == labels).sum().item()
-
+            # print statistics in every 100 mini-batches
+            print("[%5d] Accuracy of the network on the %d test images: %d %%" % ((i + 1)*1000, total, 100 * correct / total))
+            # write the predicted and labels to csv file
+            # join the predicted and labels
+            predicted_for_write = predicted.reshape(-1,1)
+            labels_for_write = labels.reshape(-1,1)
+            data = torch.cat((predicted_for_write,labels_for_write),1)
+            # write to csv file
+            write_to_csv('./csv/predicted_labels.csv',data)
         print(
             "Accuracy of the network on the test images: %d %%"
             % (100 * correct / total)

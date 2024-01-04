@@ -50,7 +50,10 @@ if __name__ == "__main__":
     # torch.save(net.state_dict(), "CovNet__weights.pth")
 
     # 6.predict
-    images, labels = next(iter(trainloader))
-    num = save_img(images, labels, num=17)  # num<32
-    image_path = f"./imgs/{num}.png"
+    # # 6.predict
+    iter=iter(trainloader)
+    images, labels = next(iter)
+    res = save_img(images, labels, num=17)  # num<32
+    print("True label:", res)
+    image_path = f"./imgs/{res}.png"
     predict_digit(image_path, net)
