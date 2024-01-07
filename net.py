@@ -33,6 +33,7 @@ class Conv_Net(nn.Module):
             nn.Conv2d(1, 16, kernel_size=3, stride=1, padding=1),
             # 2. batch normalization
             nn.BatchNorm2d(16),
+
             # 3. activation function
             nn.ReLU(),
             # 4. max pooling and output 16*14*14 

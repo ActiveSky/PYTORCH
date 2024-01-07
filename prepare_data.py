@@ -54,9 +54,14 @@ def save_img(imgs, labels):
         print("original data:",img)
         print("shape of original data:",img.shape)
         print("shape of label :",label.shape)
-        img = img[0].cpu().numpy()
+        # disnormalization
+        # img = img * 0.5 + 0.5
+        print("transformed data:",img)
+        img = img[0].numpy()
         array = (img.reshape((28, 28)) * 255).astype(np.uint8)
+
         img = Image.fromarray(array, 'L')
+
         label = label.cpu().numpy()
         img_path = './imgs/' + str(label) + '/' + str(i) + '.jpg'
         os.makedirs(os.path.dirname(img_path), exist_ok=True)

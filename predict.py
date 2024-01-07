@@ -44,11 +44,11 @@ if __name__ == '__main__':
     # load weights
     model.load_state_dict(torch.load("CovNet__weights.pth"))
     #predict
-    # iter=iter(testloader)
-    # images, labels = next(iter)
-    # save_img(images, labels)  # num<1000
+    iter=iter(testloader)
+    images, labels = next(iter)
+    save_img(images, labels)  # num<1000
 
-    image_path = f"./imgs/9/9.jpg"
-    predict_digit(image_path, model)
+    # image_path = f"./imgs/9/9.jpg"
+    # predict_digit(image_path, model)
     
     
